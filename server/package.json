@@ -1,14 +1,15 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "ssr",
+  "description": "",
   "private": true,
   "egg": {
     "declarations": true
   },
   "dependencies": {
     "egg": "^2.15.1",
-    "egg-scripts": "^2.11.0"
+    "egg-scripts": "^2.11.0",
+    "svg-captcha": "^1.4.0"
   },
   "devDependencies": {
     "autod": "^3.0.1",
@@ -23,22 +24,22 @@
   "engines": {
     "node": ">=10.0.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test"
-    }
-  },
   "scripts": {
     "start": "egg-scripts start --daemon --title=egg-server-server",
     "stop": "egg-scripts stop --title=egg-server-server",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
-    "test": "npm run lint -- --fix && npm run test-local",
+    "test": "npm run lint  && npm run test-local",
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",
     "lint": "eslint .",
     "ci": "npm run lint && npm run cov",
     "autod": "autod"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test"
+    }
   },
   "ci": {
     "version": "10"
@@ -47,6 +48,6 @@
     "type": "git",
     "url": ""
   },
-  "author": "wangxf",
+  "author": "wxf1994",
   "license": "MIT"
 }

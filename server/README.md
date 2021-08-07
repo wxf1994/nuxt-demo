@@ -1,6 +1,6 @@
 # server
 
-ssr
+
 
 ## QuickStart
 

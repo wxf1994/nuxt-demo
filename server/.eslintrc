@@ -1,7 +1,7 @@
 {
   "extends": "eslint-config-egg",
   "rules": {
-    "semi": ["error", "always"],
-    "quotes": ["error", "double"]
+    "semi": ["error", "never"],
+    "quotes": ["error", "single"]
   }
 }
