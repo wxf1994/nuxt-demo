@@ -31,3 +31,16 @@ $ npm stop
 
 
 [egg]: https://eggjs.org
+
+### 接口返回规范
+{
+  code: 0,
+  data: {
+
+  },
+  message: '',
+  errors: ''
+}
+0 成功
+-1 失败
+-666 登录过期
