@@ -30,6 +30,11 @@ export default {
     .captcha-container {
       position: relative;
       width: 340px;
+      .el-button {
+        width: 90px;
+        padding: 0;
+        line-height: 40px;
+      }
       .captcha {
         position: absolute;
         right: -110px;

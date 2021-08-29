@@ -13,6 +13,12 @@
         </div>
         <el-input v-model="form.captcha" placeholder="请输入验证码"></el-input>
       </el-form-item>
+      <el-form-item prop="emailCode" label="邮箱验证码" class="captcha-container">
+        <div class="captcha">
+          <el-button type="primary" @click="sendEmail" :disabled="send.timer > 0">{{sendText}}</el-button>
+        </div>
+        <el-input v-model="form.emailCode" placeholder="请输入验证码"></el-input>
+      </el-form-item>
       <el-form-item prop="password" label="密码">
         <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
       </el-form-item>
@@ -28,10 +34,14 @@ export default {
   layout: 'login',
   data() {
     return {
+      send: {
+        timer: 0
+      },
       form: {
         email: '15895539954@163.com',
         captcha: '',
         password: '200572',
+        emailCode: '',
       },
       captchaUrl: '/api/captcha?_t=' + Date.now(),
       rules: {
@@ -43,8 +53,17 @@ export default {
           message: '邮箱格式不正确'
         }],
         captcha: [{ required: true, message: '请输入验证码' }],
+        emailCode: [{ required: true, message: '请输入邮箱验证码' }],
         password: [{ required: true, pattern: /^[\d\w_-]{6,12}$/g, message: '请输入6~12位密码'}],
       }
+    }
+  },
+  computed: {
+    sendText() {
+      if (this.send.timer === 0) {
+        return '发送'
+      }
+      return `${this.send.timer}秒后发送`
     }
   },
   methods: {
@@ -58,10 +77,12 @@ export default {
             email: this.form.email,
             captcha: this.form.captcha,
             password: md5(this.form.password),
+            emailCode: this.form.emailCode
           }
           const ret = await this.$http.post('/user/login', obj)
           if (ret.code === 0) {
            this.$message.success('登录成功')
+           localStorage.setItem('token', ret.data.token)
            setTimeout(() => {
              this.$router.push('/')
            }, 500)
@@ -72,6 +93,15 @@ export default {
           this.$message.error('输入不合法')
         }
       })
+    },
+    async sendEmail() {
+      // 发送邮件
+      await this.$http.get('/sendCode?email=' + this.form.email)
+      this.send.timer = 60
+      this.timer = setInterval(() => {
+        this.send.timer -= 1
+        if (this.send.timer === 0) clearInterval(this.timer)
+      }, 1000);
     }
   }
 }

@@ -16,6 +16,7 @@
     "element-ui": "^2.15.2",
     "md5": "^2.3.0",
     "nuxt": "^2.15.7",
+    "spark-md5": "^3.0.1",
     "svg-captcha": "^1.4.0"
   },
   "devDependencies": {

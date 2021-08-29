@@ -14,8 +14,9 @@ class UserController extends BaseController {
   }
   async login() {
     const { ctx, app } = this
-    const { email, password, captcha } = ctx.request.body
+    const { email, password, captcha, emailCode } = ctx.request.body
     if (captcha.toUpperCase() !== ctx.session.captcha.toUpperCase()) return this.error('验证码错误')
+    if (emailCode !== ctx.session.emailCode) return this.error('邮箱验证码错误')
     const ret = await ctx.model.Sekk.findOne({
       email,
       password: md5(password + HashSolt)
@@ -25,7 +26,7 @@ class UserController extends BaseController {
       _id: ret._id,
       email
     }, app.config.jwt.secret, {
-      expiresIn: '1h'
+      expiresIn: '24h'
     })
     this.success({
       token,
@@ -58,17 +59,16 @@ class UserController extends BaseController {
         this.message('注册成功')
       }
     }
-    // this.success({
-    //   code: 0,
-    //   name: 'ok!!!'
-    // })
   }
   async checkEmail(email) {
     const user = await this.ctx.model.Sekk.findOne({email})
     return user
   }
   async info() {
-
+    const { ctx } = this
+    const { email } = ctx.state
+    const user = await this.checkEmail(email)
+    this.success(user)
   }
   async verify() {
     // 验证用户名是否存在
