@@ -20,5 +20,11 @@ module.exports = app => {
     router.post('/register', register)
     router.get('/verify', verify)
     router.get('/info', jwt, info)
+    router.get('/detail', jwt, info)
+  })
+
+  // article相关
+  router.group({ name: 'article', prefix: '/article'}, router => {
+    router.get('/', controller.article.index)
   })
 }
